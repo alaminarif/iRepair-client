@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Layout, Menu, Typography } from "antd";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -10,10 +11,9 @@ const { Title } = Typography;
 const items = [
   { key: "1", label: "Home", href: "/" },
   { key: "2", label: "Services", href: "/services" },
-  { key: "2", label: "Dashboard", href: "/dashboard" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ session }: { session: any }) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,17 +38,39 @@ const Navbar = () => {
               <Link href={item.href}>{item.label}</Link>
             </Menu.Item>
           ))}
-          <Button
-            className="ml-4"
-            ghost
-            size="large"
-            type="primary"
-            onClick={() => {
-              router.push("/login");
-            }}
-          >
-            Login
-          </Button>
+
+          {session ? (
+            <>
+              <Menu.Item key="5">
+                <Link href="/dashboard">Dashboard</Link>
+              </Menu.Item>
+
+              <Button
+                className="ml-4"
+                ghost
+                size="large"
+                type="primary"
+                danger
+                onClick={() => {
+                  signOut();
+                }}
+              >
+                Logut
+              </Button>
+            </>
+          ) : (
+            <Button
+              className="ml-4"
+              ghost
+              size="large"
+              type="primary"
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Menu>
       </Header>
     </Layout>

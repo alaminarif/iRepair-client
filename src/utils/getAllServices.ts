@@ -1,5 +1,5 @@
 export const getAllServices = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/services", {
+  const res = await fetch(`${process.env.BACKEND_URL}/services`, {
     next: {
       revalidate: 5,
     },

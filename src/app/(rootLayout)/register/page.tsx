@@ -1,10 +1,11 @@
 "use client";
-import { Button, Divider } from "antd";
+import { Button, Divider, message } from "antd";
 import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
+import { createUser } from "@/utils/actions/create-user";
 
 type TForm = {
   username: string;
@@ -20,7 +21,12 @@ const RegisterPage = () => {
     reset,
   } = useForm<TForm>();
 
-  const onSubmit = async (data: TForm) => {};
+  const onSubmit = async (data: TForm) => {
+    const res = await createUser(data);
+    if (res.success) {
+      message.success("User created successfully");
+    }
+  };
 
   return (
     <div className="">

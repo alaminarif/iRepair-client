@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 type TForm = {
   email: string;
@@ -17,7 +18,13 @@ const LoginPage = () => {
     handleSubmit,
   } = useForm<TForm>();
 
-  const onSubmit = async (data: TForm) => {};
+  const onSubmit = async (data: TForm) => {
+    signIn("irepair", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: "/dashboard",
+    });
+  };
 
   return (
     <div className="lg:p-10 md:p-6 p-2 shadow-xl bg-white max-w-lg my-12 mx-auto">
